@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function App() {
   const [link, setLink] = useState('');
   const [videoId, setVideoId] = useState('');
+  const [processType, setProcessType] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,20 +40,36 @@ function App() {
           style={{ width: '300px', padding: '10px' }}
         />
         <br /><br />
+
+        <select
+          value={processType}
+          onChange={(e) => setProcessType(e.target.value)}
+          style={{ padding: '10px', width: '300px' }}
+        >
+          <option value="">Select Copyright-Free Process</option>
+          <option value="mute">Mute Audio</option>
+          <option value="filter">Add B/W Filter</option>
+          <option value="trim">Trim First 5 Sec</option>
+        </select>
+
+        <br /><br />
         <button type="submit" style={{ padding: '10px 20px' }}>Process Video</button>
       </form>
 
       {videoId && (
         <div style={{ marginTop: '30px' }}>
-          <h3>Video Preview:</h3>
-          <iframe
-            width="360"
-            height="215"
-            src={`https://www.youtube.com/embed/${videoId}`}
-            frameBorder="0"
-            allowFullScreen
-            title="YouTube video"
-          ></iframe>
+          <h3>Preview with "{processType}"</h3>
+          <div style={{ filter: processType === 'filter' ? 'grayscale(100%)' : 'none' }}>
+            <iframe
+              width="360"
+              height="215"
+              src={`https://www.youtube.com/embed/${videoId}?${processType === 'mute' ? 'mute=1' : ''}`}
+              frameBorder="0"
+              allowFullScreen
+              title="YouTube video"
+            ></iframe>
+          </div>
+
           <br /><br />
           <a
             href={getDownloadLink()}
