@@ -21,6 +21,10 @@ function App() {
     return match ? match[1] : null;
   };
 
+  const getDownloadLink = () => {
+    return `https://www.y2mate.is/youtube/${videoId}`;
+  };
+
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1>VidCopy</h1>
@@ -49,6 +53,22 @@ function App() {
             allowFullScreen
             title="YouTube video"
           ></iframe>
+          <br /><br />
+          <a
+            href={getDownloadLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              background: '#28a745',
+              color: '#fff',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              textDecoration: 'none'
+            }}
+          >
+            Download in High Quality
+          </a>
         </div>
       )}
     </div>
