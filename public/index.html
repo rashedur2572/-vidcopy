@@ -7,5 +7,46 @@
   </head>
   <body>
     <div id="root"></div>
+    <form id="videoForm" style="text-align:center; margin-top:50px;">
+  <input type="text" id="urlInput" placeholder="Enter YouTube URL" required style="padding:10px; width:70%;" />
+  <br><br>
+  <select id="typeSelect" style="padding:10px;">
+    <option value="mute">Mute Audio</option>
+    <option value="grayscale">Grayscale</option>
+  </select>
+  <br><br>
+  <button type="submit" style="padding:10px 20px;">Download in High Quality</button>
+</form>
+
+<script>
+  const form = document.getElementById("videoForm");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const videoUrl = document.getElementById("urlInput").value;
+    const type = document.getElementById("typeSelect").value;
+
+    const response = await fetch("https://vidcopy-backend.rashedur.repl.co/process", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ videoUrl, type }),
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "processed_video.mp4";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else {
+      alert("Download failed!");
+    }
+  });
+</script>
   </body>
 </html>
